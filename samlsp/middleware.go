@@ -343,7 +343,8 @@ func (m *Middleware) IsAuthorized(r *http.Request) bool {
 
 	for claimName, claimValues := range tokenClaims.Attributes {
 		for _, claimValue := range claimValues {
-			r.Header.Add("X-Saml-"+claimName, claimValue)
+			cn := strings.Split(claimName, "/")
+			r.Header.Add("X-Saml-"+cn[len(cn)-1], claimValue)
 		}
 	}
 	r.Header.Set("X-Saml-Subject", tokenClaims.Subject)
